@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyAYVbpthxPMd4eclvMpHPRa_tE6NXjnwBM",
+  "authDomain": "img-album.firebaseapp.com",
+  "databaseURL": "https://img-album.firebaseio.com",
+  "projectId": "img-album",
+  "storageBucket": "img-album.appspot.com",
+  "messagingSenderId": "965338435781",
+  "appId": "1:965338435781:web:e2e77bc64fa995d6"
+}
