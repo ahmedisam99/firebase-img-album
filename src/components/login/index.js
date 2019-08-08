@@ -29,6 +29,21 @@ export default class extends React.Component {
     this.setState({ password: value });
   };
 
+  loginWithGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+    provider.setCustomParameters({ login_hint: "user@example.com" });
+
+    firebase.auth().useDeviceLanguage();
+
+    firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => firebase.auth().signInWithPopup(provider))
+      .then(() => this.props.history.push("/"))
+      .catch(console.error);
+  };
+
   render() {
     return (
       <form
@@ -39,7 +54,7 @@ export default class extends React.Component {
           justifyContent: "space-around",
           margin: 10,
           width: 400,
-          height: 100
+          height: 180
         }}
       >
         <input
@@ -54,8 +69,15 @@ export default class extends React.Component {
         />
         <input type="submit" value="Login" />
         <span>
-          Dont have an account? <Link to="/signup">Create account</Link>
+          Don't have an account? <Link to="/signup">Create account</Link>
         </span>
+        <div>
+          <input
+            type="button"
+            value="Login with Google"
+            onClick={this.loginWithGoogle}
+          />
+        </div>
       </form>
     );
   }

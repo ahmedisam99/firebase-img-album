@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  Link
 } from "react-router-dom";
 
 import LoginPage from "../login";
@@ -45,11 +46,6 @@ export default class extends React.Component {
         <Switch>
           <Route
             exact
-            path="/login"
-            render={props => <Redirect {...props} to="/" />}
-          />
-          <Route
-            exact
             path="/"
             render={props => (
               <HomePage
@@ -59,7 +55,27 @@ export default class extends React.Component {
               />
             )}
           />
-          <Route path="/" render={() => <h1>404 Page Not Found</h1>} />
+          <Route
+            exact
+            path="/login"
+            render={props => <Redirect {...props} to="/" />}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={props => <Redirect {...props} to="/" />}
+          />
+          <Route
+            path="/"
+            render={() => (
+              <>
+                <h1 className="App">404 Page Not Found</h1>
+                <h4 className="App">
+                  <Link to="/">Back to Home</Link>
+                </h4>
+              </>
+            )}
+          />
         </Switch>
       </Router>
     ) : (

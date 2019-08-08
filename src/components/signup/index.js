@@ -40,6 +40,21 @@ export default class extends React.Component {
       .catch(console.error);
   };
 
+  signupWithGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+    provider.setCustomParameters({ login_hint: "user@example.com" });
+
+    firebase.auth().useDeviceLanguage();
+
+    firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => firebase.auth().signInWithPopup(provider))
+      .then(() => this.props.history.push("/"))
+      .catch(console.error);
+  };
+
   render() {
     return (
       <form
@@ -50,7 +65,7 @@ export default class extends React.Component {
           justifyContent: "space-around",
           margin: 10,
           width: 400,
-          height: 120
+          height: 220
         }}
       >
         <input
@@ -72,6 +87,13 @@ export default class extends React.Component {
         <span>
           Already have an account? <Link to="/login">login instead</Link>
         </span>
+        <div>
+          <input
+            type="button"
+            value="Sign up with Google"
+            onClick={this.signupWithGoogle}
+          />
+        </div>
       </form>
     );
   }
