@@ -15,7 +15,6 @@ import "./style.css";
 
 export default class extends React.Component {
   state = {
-    user: {},
     loggedIn: false,
     loading: true
   };
@@ -23,10 +22,8 @@ export default class extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       console.log("user", user);
-      if (user) {
-        const { email, uid } = user;
-        this.setState({ user: { email, uid }, loggedIn: true, loading: false });
-      } else this.setState({ user: {}, loggedIn: false, loading: false });
+      if (user) this.setState({ loggedIn: true, loading: false });
+      else this.setState({ loggedIn: false, loading: false });
     });
   }
 
@@ -34,8 +31,11 @@ export default class extends React.Component {
     firebase
       .auth()
       .signOut()
-      .then(() => this.setState({ user: {}, loggedIn: false, loading: false }))
-      .catch(console.error);
+      .then(() => this.setState({ loggedIn: false, loading: false }))
+      .catch(() => {
+        alert("Sometihng went wrong while logging out");
+        window.location.reload();
+      });
   };
 
   render() {
@@ -47,13 +47,7 @@ export default class extends React.Component {
           <Route
             exact
             path="/"
-            render={props => (
-              <HomePage
-                {...props}
-                user={this.state.user}
-                logout={this.logout}
-              />
-            )}
+            render={props => <HomePage {...props} logout={this.logout} />}
           />
           <Route
             exact
